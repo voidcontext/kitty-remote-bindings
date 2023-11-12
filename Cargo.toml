@@ -1,8 +1,35 @@
+[workspace]
+resolver = "2"
+members = [
+  "macros"
+]
+
+[workspace.package]
+include = [
+  "src/**/",
+  "Cargo.toml",
+  "Cargo.lock",
+  "README.md"
+]
+
 [package]
 name = "kitty-remote-bindings"
 version = "0.1.0"
 edition = "2021"
+include.workspace = true
 
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 
 [dependencies]
+kitty-remote-bindings-macros = {path = "./macros", version = "0.1.0"}
+async-trait = "0.1.74"
+tokio = {version = "1.0", features = ["process"]}
+serde = {version = "1.0.190", features = ["serde_derive"]}
+serde_json = "1.0.108"
+thiserror = "1.0.50"
+
+[dev-dependencies]
+mockall = "0.11.4"
+tokio = {version = "1.0", features = ["rt", "macros"]}
+lazy_static = "1.4.0"
+pretty_assertions = "1.4.0"
