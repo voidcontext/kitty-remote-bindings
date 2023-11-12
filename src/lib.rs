@@ -6,6 +6,8 @@ mod remote_command;
 
 pub use kitty_terminal::KittyTerminal;
 pub use kitty::Kitty;
+pub use remote_command::LsOptions;
+pub use remote_command::SendTextOptions;
 
 pub type Result<T> = std::result::Result<T, Error>;
 
