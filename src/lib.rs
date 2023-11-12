@@ -5,6 +5,7 @@ pub mod model;
 mod remote_command;
 
 pub use kitty_terminal::KittyTerminal;
+pub use kitty::Kitty;
 
 pub type Result<T> = std::result::Result<T, Error>;
 

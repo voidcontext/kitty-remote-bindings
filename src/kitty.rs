@@ -19,6 +19,12 @@ impl Kitty {
     }
 }
 
+impl Default for Kitty {
+    fn default() -> Self {
+        Self::new()
+    }
+}
+
 #[async_trait]
 impl KittyTerminal for Kitty {
     async fn ls(&self, options: &LsOptions) -> Result<LsOutput> {
@@ -28,13 +34,14 @@ impl KittyTerminal for Kitty {
 
         Ok(ls_output)
     }
+
     async fn send_text(&self, options: &SendTextOptions, args: &[&str]) -> Result<()> {
         let mut cmd: tokio::process::Command = options.into();
         cmd.args(args);
 
-        cmd.output().await.unwrap();
+        self.executor.output(&mut cmd).await?;
 
-        todo!()
+        Ok(())
     }
 }
 
@@ -45,6 +52,8 @@ mod tests {
     use super::Kitty;
     use super::KittyTerminal;
     use crate::remote_command::LsOptions;
+    use crate::remote_command::Matcher;
+    use crate::remote_command::SendTextOptions;
     use crate::{executor::MockExecutor, model::test_fixture};
     use pretty_assertions::assert_eq;
 
@@ -73,5 +82,35 @@ mod tests {
             .expect("ls() returned an error");
 
         assert_eq!(result, *test_fixture::LS_OUTPUT);
+    }
+
+    #[tokio::test]
+    async fn test_send_text() {
+        let mut executor = MockExecutor::new();
+        executor
+            .expect_output()
+            .withf(|cmd| format!("{:?}", cmd.as_std()) == r#""kitty" "@" "send-text" "--match" "id:1" "some text""#)
+            .times(1)
+            .returning(|_| {
+                Ok(Output {
+                    status: ExitStatus::default(),
+                    stdout: Vec::new(),
+                    stderr: Vec::new(),
+                })
+            });
+
+        let kitty = Kitty {
+            executor: Box::new(executor),
+        };
+        
+        let mut options  = SendTextOptions::default();
+        options.matcher(Matcher::Id(1));
+
+        let result = kitty
+            .send_text(&options, &["some text"])
+            .await
+            .expect("send_text() returned an error");
+
+        assert_eq!(result, ());
     }
 }
