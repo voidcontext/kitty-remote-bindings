@@ -73,6 +73,9 @@
       devShells.default = nru.mkDevShell {
         inputsFrom = [felis.crate];
         inherit (felis) checks;
+        packages = [
+          pkgs.gnused
+        ];
       };
     });
   in
