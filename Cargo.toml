@@ -15,6 +15,11 @@ name = "kitty-remote-bindings"
 version = "0.1.0"
 edition = "2021"
 include.workspace = true
+licence = "MIT"
+description = "Bindings for Kitty Terminal's remote commands"
+homepage = "https://git.vdx.hu/voidcontext/kitty-remote-bindings"
+repository = "https://git.vdx.hu/voidcontext/kitty-remote-bindings"
+readme = "README.md"
 
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 
