@@ -4,10 +4,10 @@ members = []
 
 [workspace.package]
 include = [
-  "src/**/",
-  "Cargo.toml",
-  "Cargo.lock",
-  "README.md"
+  "src/**/*",
+  "./Cargo.toml",
+  "./Cargo.lock",
+  "./README.md"
 ]
 
 [package]
