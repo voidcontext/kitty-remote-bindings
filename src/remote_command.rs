@@ -1,119 +1,16 @@
-#[derive(Debug, Default, PartialEq)]
-pub struct LsOptions {
-    // TODO: matchers can be combined using Boolean operators
-    matcher: Option<Matcher>,
-}
+pub(crate) mod ls;
+pub(crate) mod options;
+pub(crate) mod send_text;
 
-impl LsOptions {
-    pub fn matcher(&mut self, matcher: Matcher) -> &Self {
-        self.matcher = Some(matcher);
-        self
-    }
-}
+use std::process::Output;
 
-impl From<&LsOptions> for tokio::process::Command {
-    fn from(value: &LsOptions) -> Self {
-        let mut cmd = tokio::process::Command::new("kitty");
-        cmd.args(["@", "ls"]);
+use crate::Result;
 
-        if let Some(Matcher::Id(id)) = value.matcher {
-            cmd.arg("--match");
-            cmd.arg(format!("id:{id}"));
-        }
+pub trait CommandOutput {
+    type R;
 
-        cmd
-    }
-}
-
-#[derive(Debug, Default, PartialEq)]
-pub struct SendTextOptions {
-    // TODO: matchers can be combined using Boolean operators
-    matcher: Option<Matcher>,
-}
-
-impl SendTextOptions {
-    pub fn matcher(&mut self, matcher: Matcher) -> &Self {
-        self.matcher = Some(matcher);
-        self
-    }
-}
-
-impl From<&SendTextOptions> for tokio::process::Command {
-    fn from(value: &SendTextOptions) -> Self {
-        let mut cmd = tokio::process::Command::new("kitty");
-        cmd.args(["@", "send-text"]);
-
-        if let Some(Matcher::Id(id)) = value.matcher {
-            cmd.arg("--match");
-            cmd.arg(format!("id:{id}"));
-        }
-
-        cmd
-    }
-}
-
-// id, title, pid, cwd, cmdline, num, env, var, state, neighbor, and recent
-#[derive(Debug, PartialEq)]
-pub enum Matcher {
-    Id(u32),
-    // Title(String),
-    // Pid(u32),
-    // Cwd(String),
-    // CmdLine(String),
-    // Num(u32),
-    // Env(String),
-    // Var(String),
-    // State(String),
-    // Neighbor(String),
-    // Recent(u32),
-}
-
-#[cfg(test)]
-mod tests {
-    use pretty_assertions::assert_eq;
-    use tokio::process::Command;
-
-    use crate::{remote_command::Matcher, LsOptions, SendTextOptions};
-
-    #[test]
-    fn test_ls_options() {
-        let cmd = Command::from(&LsOptions::default());
-        let cmd = cmd.as_std();
-
-        assert_eq!(cmd.get_program(), "kitty");
-        assert_eq!(cmd.get_args().collect::<Vec<_>>(), vec!["@", "ls"]);
-    }
-
-    #[test]
-    fn test_ls_options_match_id() {
-        let cmd = Command::from(LsOptions::default().matcher(Matcher::Id(13)));
-        let cmd = cmd.as_std();
-
-        assert_eq!(cmd.get_program(), "kitty");
-        assert_eq!(
-            cmd.get_args().collect::<Vec<_>>(),
-            vec!["@", "ls", "--match", "id:13"]
-        );
-    }
-
-    #[test]
-    fn test_send_text_options() {
-        let cmd = Command::from(&SendTextOptions::default());
-        let cmd = cmd.as_std();
-
-        assert_eq!(cmd.get_program(), "kitty");
-        assert_eq!(cmd.get_args().collect::<Vec<_>>(), vec!["@", "send-text"]);
-    }
-
-    #[test]
-    fn test_send_text_match_id() {
-        let cmd = Command::from(SendTextOptions::default().matcher(Matcher::Id(13)));
-        let cmd = cmd.as_std();
-
-        assert_eq!(cmd.get_program(), "kitty");
-        assert_eq!(
-            cmd.get_args().collect::<Vec<_>>(),
-            vec!["@", "send-text", "--match", "id:13"]
-        );
-    }
+    /// # Errors
+    ///
+    /// Returns an error when the output contains a non-zero exit code or the ouput cannot be decoded
+    fn result(output: &Output) -> Result<Self::R>;
 }

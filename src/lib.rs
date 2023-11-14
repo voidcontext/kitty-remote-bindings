@@ -1,14 +1,13 @@
-mod executor;
-mod kitty;
-mod kitty_terminal;
 pub mod model;
 mod remote_command;
 
-pub use kitty::Kitty;
-pub use kitty_terminal::KittyTerminal;
-pub use remote_command::LsOptions;
-pub use remote_command::Matcher;
-pub use remote_command::SendTextOptions;
+pub use remote_command::CommandOutput;
+
+pub use remote_command::options::Matcher;
+pub use remote_command::options::MatcherOption;
+
+pub use remote_command::ls::Ls;
+pub use remote_command::send_text::SendText;
 
 pub type Result<T> = std::result::Result<T, Error>;
 
@@ -18,4 +17,6 @@ pub enum Error {
     IoError(#[from] std::io::Error),
     #[error("JsonDecoding error")]
     JsonDecodingError(#[from] serde_json::Error),
+    #[error("The sub-process `{0}` exited with a non zero status")]
+    ErrorExit(String),
 }
