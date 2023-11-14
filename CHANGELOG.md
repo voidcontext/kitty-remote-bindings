@@ -2,6 +2,14 @@
 All notable changes to this project will be documented in this file. See [conventional commits](https://www.conventionalcommits.org/) for commit guidelines.
 
 - - -
+## kitty-remote-bindings-v0.2.0 - 2023-11-14
+#### Features
+- make the API simpler and more flexible (#3) - (6fb0f69) - Gabor Pihaj
+#### Refactoring
+- improve docs and naming (#4) - (d3c65e0) - Gabor Pihaj
+
+- - -
+
 ## kitty-remote-bindings-v0.1.0 - 2023-11-13
 #### Features
 - implement ls and send-text commands, and the id matcher (#2) - (e663830) - Gabor Pihaj
