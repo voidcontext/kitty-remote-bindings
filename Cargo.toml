@@ -19,6 +19,7 @@ license = "MIT"
 description = "Bindings for Kitty Terminal's remote commands"
 homepage = "https://git.vdx.hu/voidcontext/kitty-remote-bindings"
 repository = "https://git.vdx.hu/voidcontext/kitty-remote-bindings"
+documentation = "https://docs.rs/kitty-remote-bindings/latest/kitty_remote_bindings/"
 readme = "README.md"
 
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html

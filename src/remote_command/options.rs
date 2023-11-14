@@ -1,8 +1,10 @@
 use crate::model::WindowId;
 
-// id, title, pid, cwd, cmdline, num, env, var, state, neighbor, and recent
+/// Represents the `--match` option
+//e id, title, pid, cwd, cmdline, num, env, var, state, neighbor, and recent
 #[derive(Clone, Debug, PartialEq)]
 pub enum Matcher {
+    /// Match by windows id `--match id:windows_id`
     Id(WindowId),
     // Title(String),
     // Pid(u32),
@@ -16,6 +18,7 @@ pub enum Matcher {
     // Recent(u32),
 }
 
-pub trait MatcherOption {
+/// Provides convenience function to set the matcher of commands that supports this option.
+pub trait MatcherExt {
     fn matcher(&mut self, matcher: Matcher) -> &Self;
 }

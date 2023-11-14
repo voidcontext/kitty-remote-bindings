@@ -12,9 +12,9 @@ pub struct OsWindowId(pub u32);
 pub struct Pid(u32);
 
 #[derive(Clone, Debug, Deserialize, PartialEq)]
-pub struct LsOutput(pub Vec<OsWindow>);
+pub struct OsWindows(pub Vec<OsWindow>);
 
-impl IntoIterator for LsOutput {
+impl IntoIterator for OsWindows {
     type Item = OsWindow;
 
     type IntoIter = std::vec::IntoIter<Self::Item>;
@@ -59,13 +59,13 @@ pub struct Process {
 mod test {
     use pretty_assertions::assert_eq;
 
-    use super::{test_fixture::LS_OUTPUT, test_fixture::LS_OUTPUT_JSON, LsOutput};
+    use super::{test_fixture::LS_OUTPUT, test_fixture::LS_OUTPUT_JSON, OsWindows};
 
     #[test]
     fn test_kitty_ls_output_can_be_deserialized() {
-        let output: LsOutput = serde_json::from_str(LS_OUTPUT_JSON).unwrap();
+        let output: OsWindows = serde_json::from_str(LS_OUTPUT_JSON).unwrap();
 
-        let expected: &LsOutput = &LS_OUTPUT;
+        let expected: &OsWindows = &LS_OUTPUT;
 
         assert_eq!(&output, expected);
     }
@@ -75,10 +75,10 @@ mod test {
 pub mod test_fixture {
     use lazy_static::lazy_static;
 
-    use super::{LsOutput, OsWindow, OsWindowId, Process, Tab, TabId, Window, WindowId};
+    use super::{OsWindow, OsWindowId, OsWindows, Process, Tab, TabId, Window, WindowId};
 
     lazy_static! {
-    pub static ref LS_OUTPUT: LsOutput = LsOutput(
+    pub static ref LS_OUTPUT: OsWindows = OsWindows(
         vec![
             OsWindow {
                 id: OsWindowId(1u32),

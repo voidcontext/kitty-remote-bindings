@@ -1,9 +1,10 @@
 use std::process::{Command, Output};
 
-use crate::{model::LsOutput, Matcher, MatcherOption, Result};
+use crate::{model::OsWindows, Matcher, MatcherExt, Result};
 
 use super::CommandOutput;
 
+/// Represents the "ls" remote command: kitty @ ls
 #[derive(Debug, PartialEq)]
 pub struct Ls {
     matcher: Option<Matcher>,
@@ -17,7 +18,7 @@ impl Ls {
     }
 }
 
-impl MatcherOption for Ls {
+impl MatcherExt for Ls {
     fn matcher(&mut self, matcher: Matcher) -> &Self {
         self.matcher = Some(matcher);
         self
@@ -25,10 +26,10 @@ impl MatcherOption for Ls {
 }
 
 impl CommandOutput for Ls {
-    type R = LsOutput;
+    type R = OsWindows;
     fn result(output: &Output) -> Result<Self::R> {
         if output.status.success() {
-            let ls_output = serde_json::from_slice::<LsOutput>(&output.stdout)?;
+            let ls_output = serde_json::from_slice::<OsWindows>(&output.stdout)?;
 
             Ok(ls_output)
         } else {
@@ -65,7 +66,7 @@ mod tests {
     use crate::{
         model::{test_fixture, WindowId},
         remote_command::CommandOutput,
-        Matcher, MatcherOption,
+        Matcher, MatcherExt,
     };
 
     use super::Ls;

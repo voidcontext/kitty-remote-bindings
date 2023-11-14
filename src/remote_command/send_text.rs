@@ -1,9 +1,10 @@
 use std::process::{Command, Output};
 
-use crate::{Matcher, MatcherOption, Result};
+use crate::{Matcher, MatcherExt, Result};
 
 use super::CommandOutput;
 
+/// Represents the "send-text" remote command: kitty @ send-text
 #[derive(Debug, PartialEq)]
 pub struct SendText {
     text: String, // TODO: this should be a non empty string
@@ -20,7 +21,7 @@ impl SendText {
     }
 }
 
-impl MatcherOption for SendText {
+impl MatcherExt for SendText {
     fn matcher(&mut self, matcher: Matcher) -> &Self {
         self.matcher = Some(matcher);
         self
@@ -66,7 +67,7 @@ mod tests {
 
     use pretty_assertions::assert_eq;
 
-    use crate::{model::WindowId, remote_command::CommandOutput, Matcher, MatcherOption};
+    use crate::{model::WindowId, remote_command::CommandOutput, Matcher, MatcherExt};
 
     use super::SendText;
 
