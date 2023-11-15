@@ -1,3 +1,5 @@
+use std::path::PathBuf;
+
 use serde::Deserialize;
 
 #[derive(Clone, Copy, Debug, Deserialize, PartialEq)]
@@ -51,7 +53,7 @@ pub struct Window {
 #[derive(Clone, Debug, Deserialize, PartialEq)]
 pub struct Process {
     pub pid: u32,
-    pub cwd: String,
+    pub cwd: PathBuf,
     pub cmdline: Vec<String>,
 }
 
@@ -73,6 +75,8 @@ mod test {
 
 #[cfg(test)]
 pub mod test_fixture {
+    use std::path::PathBuf;
+
     use lazy_static::lazy_static;
 
     use super::{OsWindow, OsWindowId, OsWindows, Process, Tab, TabId, Window, WindowId};
@@ -99,21 +103,21 @@ pub mod test_fixture {
                                     cmdline: vec![
                                       "/nix/store/6z1v4fzjw416c38j4013y9wam07q5zbs-rust-default-1.73.0/libexec/rust-analyzer-proc-macro-srv".to_string()
                                     ],
-                                    cwd: "/path/to/felis".to_string(),
+                                    cwd: PathBuf::from("/path/to/felis"),
                                     pid: 40339
                                 },
                                 Process {
                                   cmdline: vec![
                                     "/nix/store/0g95h72qqdxlig31n6ahcz1ch1jsg9q4-rust-analyzer-unwrapped-2023-05-15/bin/rust-analyzer".to_string()
                                   ],
-                                  cwd: "/path/to/felis".to_string(),
+                                  cwd: PathBuf::from("/path/to/felis"),
                                   pid: 38646
                                 },
                                 Process {
                                   cmdline: vec![
                                     "/etc/profiles/per-user/gaborpihaj/bin/hx".to_string()
                                   ],
-                                  cwd: "/path/to/felis".to_string(),
+                                  cwd: PathBuf::from("/path/to/felis"),
                                   pid: 38411
                               }],
                             },
@@ -124,7 +128,7 @@ pub mod test_fixture {
                                 foreground_processes: vec![
                                     Process {
                                         pid: 49915,
-                                        cwd: "/path/to/felis".to_string(),
+                                        cwd: PathBuf::from("/path/to/felis"),
                                         cmdline: vec![
                                             "kitten".to_string(),
                                             "@".to_string(),
@@ -140,7 +144,7 @@ pub mod test_fixture {
                                 foreground_processes: vec![
                                     Process {
                                         pid: 983,
-                                        cwd: "/path/to/felis".to_string(),
+                                        cwd: PathBuf::from("/path/to/felis"),
                                         cmdline: vec![
                                             "-zsh".to_string(),
                                         ],

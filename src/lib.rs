@@ -27,6 +27,7 @@ pub use remote_command::CommandOutput;
 pub use remote_command::options::Matcher;
 pub use remote_command::options::MatcherExt;
 
+pub use remote_command::focus_window::FocusWindow;
 pub use remote_command::ls::Ls;
 pub use remote_command::send_text::SendText;
 
