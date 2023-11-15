@@ -2,6 +2,12 @@
 All notable changes to this project will be documented in this file. See [conventional commits](https://www.conventionalcommits.org/) for commit guidelines.
 
 - - -
+## kitty-remote-bindings-v0.3.0 - 2023-11-15
+#### Features
+- implement focus-window command and change cwd to PathBuf (#5) - (4710a25) - Gabor Pihaj
+
+- - -
+
 ## kitty-remote-bindings-v0.2.0 - 2023-11-14
 #### Features
 - make the API simpler and more flexible (#3) - (6fb0f69) - Gabor Pihaj
