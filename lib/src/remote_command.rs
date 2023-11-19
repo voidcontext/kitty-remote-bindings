@@ -1,4 +1,5 @@
 pub(crate) mod focus_window;
+pub(crate) mod launch;
 pub(crate) mod ls;
 pub(crate) mod options;
 pub(crate) mod send_text;

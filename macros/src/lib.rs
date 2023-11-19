@@ -25,7 +25,7 @@ pub fn derive_command(item: TokenStream) -> TokenStream {
 /// # Panics
 ///
 /// Panics if the item is not a struct or an enum
-#[proc_macro_derive(KittyCommandOption)]
+#[proc_macro_derive(KittyCommandOption, attributes(prefix))]
 pub fn derive_command_option(item: TokenStream) -> TokenStream {
     let item_parsed = {
         let cloned = item.clone();

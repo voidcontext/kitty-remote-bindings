@@ -1,3 +1,4 @@
+use convert_case::{Case, Casing};
 use proc_macro::TokenStream;
 use proc_macro2::Span;
 use quote::quote;
@@ -10,7 +11,7 @@ pub fn enum_impl(item: &ItemEnum) -> TokenStream {
         let variant_name = variant.ident.clone();
 
         let variant_str = syn::LitStr::new(
-            variant_name.to_string().to_lowercase().as_str(),
+            variant_name.to_string().to_case(Case::Kebab).as_str(),
             Span::call_site(),
         );
 
@@ -41,13 +42,26 @@ pub fn enum_impl(item: &ItemEnum) -> TokenStream {
                     "Only a single unnamed field is supported"
                 );
 
-                quote! {
-                    #name::#variant_name(value) => format!("{}:{}", #variant_str, value),
+                let is_prefix = variant.attrs.iter().any(|attr| match &attr.meta {
+                    syn::Meta::Path(path) => {
+                        path.get_ident().iter().any(|ident| *ident == "prefix")
+                    }
+                    _ => false,
+                });
+
+                if is_prefix {
+                    quote! {
+                        #name::#variant_name(value) => vec![format!("{}:{}", #variant_str, value)],
+                    }
+                } else {
+                    quote! {
+                        #name::#variant_name(value) => crate::ToArg::to_arg(&value),
+                    }
                 }
             }
             syn::Fields::Unit => {
                 quote! {
-                    #name::#variant_name => String::from(#variant_str),
+                    #name::#variant_name => vec![String::from(#variant_str)],
                 }
             }
         }
@@ -55,7 +69,7 @@ pub fn enum_impl(item: &ItemEnum) -> TokenStream {
 
     let gen = quote! {
         impl crate::ToArg for #name {
-            fn to_arg(&self) -> String {
+            fn to_arg(&self) -> Vec<String> {
                 match self {
                     #(#variant_case)*
                 }
@@ -78,7 +92,7 @@ pub fn struct_impl(item: &ItemStruct) -> TokenStream {
 
             let gen = quote! {
                 impl crate::ToArg for #name {
-                    fn to_arg(&self) -> String {
+                    fn to_arg(&self) -> Vec<String> {
                         crate::ToArg::to_arg(&self.0)
                     }
                 }

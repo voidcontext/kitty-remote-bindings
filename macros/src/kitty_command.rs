@@ -88,9 +88,11 @@ fn drive_from_kitty_command_for_command(st: &ItemStruct) -> proc_macro2::TokenSt
     } else {
         let args = required_fields.into_iter().map(|field| {
             let field_name = field.ident.clone().unwrap();
-            quote!(crate::ToArg::to_arg(&value.#field_name))
+            quote! {
+                cmd.args(&crate::ToArg::to_arg(&value.#field_name));
+            }
         });
-        quote!(cmd.args([#(#args),*]);)
+        quote!(#(#args)*)
     };
 
     let optional_fields = optional_fields(st);
@@ -162,7 +164,8 @@ fn to_cmd_options<'a, I: Iterator<Item = &'a syn::Field>>(fields: I) -> proc_mac
         );
         quote! {
             if let Some(option_value) = &value.#field_name {
-               cmd.args([#option_str.to_string(), crate::ToArg::to_arg(option_value)]);
+                cmd.arg(#option_str.to_string());
+                cmd.args(&crate::ToArg::to_arg(option_value));
             }
         }
     });

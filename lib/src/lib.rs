@@ -26,10 +26,13 @@ mod remote_command;
 
 pub use remote_command::CommandOutput;
 
+pub use remote_command::options::Cwd;
+pub use remote_command::options::LaunchType;
 pub use remote_command::options::Matcher;
 pub use remote_command::options::ToArg;
 
 pub use remote_command::focus_window::FocusWindow;
+pub use remote_command::launch::Launch;
 pub use remote_command::ls::Ls;
 pub use remote_command::send_text::SendText;
 
