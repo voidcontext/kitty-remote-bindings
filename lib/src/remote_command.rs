@@ -7,6 +7,12 @@ use std::process::Output;
 
 use crate::Result;
 
+// enum RemoteCommand {
+//     FocusWindow(focus_window::FocusWindow),
+//     Ls(ls::Ls),
+//     SendText(send_text::SendText)
+// }
+
 /// Parse and decode the output of Kitty's remote commands.
 ///
 /// For some commands the output, [`CommandOutput::R`] is just (), for some commands it's actual data

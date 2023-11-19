@@ -1,0 +1,20 @@
+[package]
+name = "kitty-remote-bindings-macros"
+version = "0.1.0"
+description = "Internal macros of the kitty-remote-bindings crate"
+edition.workspace = true
+license.workspace = true
+homepage.workspace = true
+repository.workspace = true
+
+[lib]
+proc_macro = true
+
+[dependencies]
+syn = {version = "2.0.38", features = ["full"]}
+quote = "1.0.33"
+proc-macro2 = "1.0.69"
+
+[dev-dependencies]
+pretty_assertions = "1.4.0"
+kitty-remote-bindings = {path = "../lib" }

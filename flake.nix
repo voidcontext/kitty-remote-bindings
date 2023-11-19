@@ -77,6 +77,9 @@
           pkgs.gnused
         ];
       };
+      devShells.nightly = pkgs.mkShell {
+        packages = [pkgs.rust-bin.nightly.latest.default];
+      };
     });
   in
     outputs

@@ -1,0 +1,22 @@
+[package]
+name = "kitty-remote-bindings"
+version = "0.3.0"
+description = "Bindings for Kitty Terminal's remote commands"
+edition.workspace = true
+license.workspace = true
+homepage.workspace = true
+repository.workspace = true
+documentation = "https://docs.rs/kitty-remote-bindings/latest/kitty_remote_bindings/"
+readme = "README.md"
+
+# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
+
+[dependencies]
+serde = {version = "1.0.190", features = ["serde_derive"]}
+serde_json = "1.0.108"
+thiserror = "1.0.50"
+kitty-remote-bindings-macros = {path = "../macros", version = "0.1.0" }
+
+[dev-dependencies]
+lazy_static = "1.4.0"
+pretty_assertions = "1.4.0"

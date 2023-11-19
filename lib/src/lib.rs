@@ -9,14 +9,16 @@
 //! ```
 //! use std::process::Command;
 //!
-//! use kitty_remote_bindings::{Matcher, MatcherExt, SendText, model::WindowId};
+//! use kitty_remote_bindings::{Matcher, SendText, model::WindowId};
 //!
-//! let mut send_text = SendText::new(r#"echo "Hello world""#.to_string());
-//! send_text.matcher(Matcher::Id(WindowId(2)));
+//! let mut send_text = SendText::new(r#"echo "Hello world""#.to_string())
+//!     .matcher(Matcher::Id(WindowId(2)));
 //!
-//! Command::from(&send_text)
-//!     .status()
-//!     .expect("failed to execute send-text");
+//! let cmd = Command::from(&send_text);
+//!
+//! // then run command:
+//! //
+//! // cmd.status().expect("failed to execute send-text");
 //! ```
 
 pub mod model;
@@ -25,7 +27,7 @@ mod remote_command;
 pub use remote_command::CommandOutput;
 
 pub use remote_command::options::Matcher;
-pub use remote_command::options::MatcherExt;
+pub use remote_command::options::ToArg;
 
 pub use remote_command::focus_window::FocusWindow;
 pub use remote_command::ls::Ls;

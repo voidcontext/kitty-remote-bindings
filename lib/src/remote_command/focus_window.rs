@@ -1,36 +1,19 @@
-use std::process::{Command, Output};
+use std::process::Output;
 
-use crate::{Matcher, MatcherExt, Result};
+use kitty_remote_bindings_macros::KittyCommand;
+
+use crate::{Matcher, Result};
 
 use super::CommandOutput;
 
 /// Represents the "focus-window" remote command: kitty @ focus-window
-#[derive(Debug, PartialEq)]
+#[derive(Debug, PartialEq, KittyCommand)]
+#[kitty_command = "focus-window"]
 pub struct FocusWindow {
+    #[top_level]
     to: Option<String>,
+    #[option = "match"]
     matcher: Option<Matcher>,
-}
-
-impl FocusWindow {
-    #[must_use]
-    #[allow(clippy::new_without_default)]
-    pub fn new() -> Self {
-        Self {
-            to: None,
-            matcher: None,
-        }
-    }
-    pub fn to(&mut self, to: String) -> &Self {
-        self.to = Some(to);
-        self
-    }
-}
-
-impl MatcherExt for FocusWindow {
-    fn matcher(&mut self, matcher: Matcher) -> &Self {
-        self.matcher = Some(matcher);
-        self
-    }
 }
 
 impl CommandOutput for FocusWindow {
@@ -45,26 +28,6 @@ impl CommandOutput for FocusWindow {
     }
 }
 
-impl<'a> From<&'a FocusWindow> for Command {
-    fn from(value: &FocusWindow) -> Self {
-        let mut cmd = Command::new("kitty");
-        cmd.arg("@");
-
-        if let Some(to) = &value.to {
-            cmd.args(["--to", to.as_str()]);
-        }
-
-        cmd.arg("focus-window");
-
-        if let Some(Matcher::Id(id)) = value.matcher {
-            cmd.arg("--match");
-            cmd.arg(format!("id:{}", id.0));
-        }
-
-        cmd
-    }
-}
-
 #[cfg(test)]
 mod tests {
 
@@ -76,7 +39,7 @@ mod tests {
 
     use pretty_assertions::assert_eq;
 
-    use crate::{model::WindowId, remote_command::CommandOutput, Matcher, MatcherExt};
+    use crate::{model::WindowId, remote_command::CommandOutput, Matcher};
 
     use super::FocusWindow;
 
@@ -93,7 +56,7 @@ mod tests {
 
     #[test]
     fn test_focus_widow_command_to() {
-        let cmd = Command::from(FocusWindow::new().to("unix:/path/to/kitty.sock".to_string()));
+        let cmd = Command::from(&FocusWindow::new().to("unix:/path/to/kitty.sock".to_string()));
 
         assert_eq!(cmd.get_program(), "kitty");
         assert_eq!(
@@ -104,7 +67,7 @@ mod tests {
 
     #[test]
     fn test_focus_window_command_match_id() {
-        let cmd = Command::from(FocusWindow::new().matcher(Matcher::Id(WindowId(13))));
+        let cmd = Command::from(&FocusWindow::new().matcher(Matcher::Id(WindowId(13))));
 
         assert_eq!(cmd.get_program(), "kitty");
         assert_eq!(

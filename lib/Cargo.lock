@@ -30,7 +30,6 @@ dependencies = [
 name = "kitty-remote-bindings-macros"
 version = "0.1.0"
 dependencies = [
- "kitty-remote-bindings",
  "pretty_assertions",
  "proc-macro2",
  "quote",
