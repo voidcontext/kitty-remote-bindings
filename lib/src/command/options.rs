@@ -4,34 +4,6 @@ use kitty_remote_bindings_macros::KittyCommandOption;
 
 use crate::model::WindowId;
 
-pub trait ToArg {
-    fn to_arg(&self) -> Vec<String>;
-}
-
-impl ToArg for String {
-    fn to_arg(&self) -> Vec<String> {
-        vec![self.clone()]
-    }
-}
-
-impl ToArg for PathBuf {
-    fn to_arg(&self) -> Vec<String> {
-        vec![self.to_string_lossy().to_string()]
-    }
-}
-
-impl<T: ToArg> ToArg for &T {
-    fn to_arg(&self) -> Vec<String> {
-        (*self).to_arg()
-    }
-}
-
-impl<T: ToArg> ToArg for Vec<T> {
-    fn to_arg(&self) -> Vec<String> {
-        self.iter().flat_map(ToArg::to_arg).collect()
-    }
-}
-
 /// Represents the `--match` option
 //e id, title, pid, cwd, cmdline, num, env, var, state, neighbor, and recent
 #[derive(Clone, Debug, PartialEq, KittyCommandOption)]
@@ -51,6 +23,7 @@ pub enum Matcher {
     // Recent(u32),
 }
 
+/// Represents the possible values of th launch command's `--type` option
 #[derive(Clone, Debug, PartialEq, KittyCommandOption)]
 pub enum LaunchType {
     Window,
@@ -63,6 +36,7 @@ pub enum LaunchType {
     Primary,
 }
 
+/// Represents the possible values of the `--cwd` option
 #[derive(Clone, Debug, PartialEq, KittyCommandOption)]
 pub enum Cwd {
     Current,

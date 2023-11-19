@@ -2,17 +2,19 @@ use std::process::Output;
 
 use kitty_remote_bindings_macros::KittyCommand;
 
-use crate::{model::OsWindows, Matcher, Result};
+use crate::{model::OsWindows, Result};
 
-use super::CommandOutput;
+use super::{options::Matcher, CommandOutput};
 
 /// Represents the "ls" remote command: kitty @ ls
 #[derive(Debug, PartialEq, KittyCommand)]
 #[kitty_command = "ls"]
 pub struct Ls {
     #[top_level]
+    /// Sets the `--to` top level option
     to: Option<String>,
     #[option = "match"]
+    /// Sets the `--match` option
     matcher: Option<Matcher>,
 }
 
@@ -44,9 +46,8 @@ mod tests {
     use pretty_assertions::assert_eq;
 
     use crate::{
+        command::{options::Matcher, CommandOutput},
         model::{test_fixture, WindowId},
-        remote_command::CommandOutput,
-        Matcher,
     };
 
     use super::Ls;

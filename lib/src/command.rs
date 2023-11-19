@@ -1,10 +1,15 @@
 pub(crate) mod focus_window;
 pub(crate) mod launch;
 pub(crate) mod ls;
-pub(crate) mod options;
+pub mod options;
 pub(crate) mod send_text;
 
 use std::process::Output;
+
+pub use focus_window::FocusWindow;
+pub use launch::Launch;
+pub use ls::Ls;
+pub use send_text::SendText;
 
 use crate::Result;
 
@@ -17,7 +22,8 @@ use crate::Result;
 /// Parse and decode the output of Kitty's remote commands.
 ///
 /// For some commands the output, [`CommandOutput::R`] is just (), for some commands it's actual data
-/// like [`OsWindows`](crate::model::OsWindows) for the [Ls](crate::Ls) command.
+/// like [`OsWindows`](crate::model::OsWindows) for the [Ls] command.
+#[allow(clippy::module_name_repetitions)]
 pub trait CommandOutput {
     /// The decoded output's type
     type R;

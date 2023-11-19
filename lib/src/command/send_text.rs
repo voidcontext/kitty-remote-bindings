@@ -2,9 +2,9 @@ use std::process::Output;
 
 use kitty_remote_bindings_macros::KittyCommand;
 
-use crate::{Matcher, Result};
+use crate::Result;
 
-use super::CommandOutput;
+use super::{options::Matcher, CommandOutput};
 
 /// Represents the "send-text" remote command: kitty @ send-text
 #[derive(Debug, PartialEq, KittyCommand)]
@@ -12,8 +12,10 @@ use super::CommandOutput;
 pub struct SendText {
     text: String, // TODO: this should be a non empty string
     #[top_level]
+    /// Sets the `--to` top level option
     to: Option<String>,
     #[option = "match"]
+    /// Sets the `--match` option
     matcher: Option<Matcher>,
 }
 
@@ -40,7 +42,10 @@ mod tests {
 
     use pretty_assertions::assert_eq;
 
-    use crate::{model::WindowId, remote_command::CommandOutput, Matcher};
+    use crate::{
+        command::{options::Matcher, CommandOutput},
+        model::WindowId,
+    };
 
     use super::SendText;
 

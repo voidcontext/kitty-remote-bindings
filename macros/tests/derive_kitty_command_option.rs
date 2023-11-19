@@ -1,4 +1,4 @@
-use kitty_remote_bindings::ToArg;
+use kitty_remote_bindings_core::ToArg;
 use kitty_remote_bindings_macros::KittyCommandOption;
 use pretty_assertions::assert_eq;
 

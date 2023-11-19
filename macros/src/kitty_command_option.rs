@@ -55,7 +55,7 @@ pub fn enum_impl(item: &ItemEnum) -> TokenStream {
                     }
                 } else {
                     quote! {
-                        #name::#variant_name(value) => crate::ToArg::to_arg(&value),
+                        #name::#variant_name(value) => kitty_remote_bindings_core::ToArg::to_arg(&value),
                     }
                 }
             }
@@ -68,7 +68,7 @@ pub fn enum_impl(item: &ItemEnum) -> TokenStream {
     });
 
     let gen = quote! {
-        impl crate::ToArg for #name {
+        impl kitty_remote_bindings_core::ToArg for #name {
             fn to_arg(&self) -> Vec<String> {
                 match self {
                     #(#variant_case)*
@@ -91,9 +91,9 @@ pub fn struct_impl(item: &ItemStruct) -> TokenStream {
             );
 
             let gen = quote! {
-                impl crate::ToArg for #name {
+                impl kitty_remote_bindings_core::ToArg for #name {
                     fn to_arg(&self) -> Vec<String> {
-                        crate::ToArg::to_arg(&self.0)
+                        kitty_remote_bindings_core::ToArg::to_arg(&self.0)
                     }
                 }
             };

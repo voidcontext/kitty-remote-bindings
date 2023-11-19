@@ -89,7 +89,7 @@ fn drive_from_kitty_command_for_command(st: &ItemStruct) -> proc_macro2::TokenSt
         let args = required_fields.into_iter().map(|field| {
             let field_name = field.ident.clone().unwrap();
             quote! {
-                cmd.args(&crate::ToArg::to_arg(&value.#field_name));
+                cmd.args(&kitty_remote_bindings_core::ToArg::to_arg(&value.#field_name));
             }
         });
         quote!(#(#args)*)
@@ -165,7 +165,7 @@ fn to_cmd_options<'a, I: Iterator<Item = &'a syn::Field>>(fields: I) -> proc_mac
         quote! {
             if let Some(option_value) = &value.#field_name {
                 cmd.arg(#option_str.to_string());
-                cmd.args(&crate::ToArg::to_arg(option_value));
+                cmd.args(&kitty_remote_bindings_core::ToArg::to_arg(option_value));
             }
         }
     });
@@ -225,7 +225,18 @@ fn setter_for_field(f: &syn::Field, t: &syn::Type) -> proc_macro2::TokenStream {
 
 fn setter_for_optional_field(f: &syn::Field, t: &syn::Type) -> proc_macro2::TokenStream {
     let name = f.ident.clone();
+    let doc_comments = find_name_value_attr(&f.attrs, "doc")
+        .and_then(|lit| match &lit.lit {
+            syn::Lit::Str(_) => {
+                let lit = lit.lit.clone();
+                Some(quote!(#[doc=#lit]))
+            }
+            _ => None,
+        })
+        .unwrap_or_else(|| quote!());
+
     quote! {
+        #doc_comments
         pub fn #name(mut self, v: #t) -> Self {
             self.#name = Some(v);
             self

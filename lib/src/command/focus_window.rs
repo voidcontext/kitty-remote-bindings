@@ -2,16 +2,18 @@ use std::process::Output;
 
 use kitty_remote_bindings_macros::KittyCommand;
 
-use crate::{Matcher, Result};
+use crate::Result;
 
-use super::CommandOutput;
+use super::{options::Matcher, CommandOutput};
 
 /// Represents the "focus-window" remote command: kitty @ focus-window
 #[derive(Debug, PartialEq, KittyCommand)]
 #[kitty_command = "focus-window"]
 pub struct FocusWindow {
     #[top_level]
+    /// Sets the `--to` top level option
     to: Option<String>,
+    /// Sets the `--match` option
     #[option = "match"]
     matcher: Option<Matcher>,
 }
@@ -39,7 +41,10 @@ mod tests {
 
     use pretty_assertions::assert_eq;
 
-    use crate::{model::WindowId, remote_command::CommandOutput, Matcher};
+    use crate::{
+        command::{options::Matcher, CommandOutput},
+        model::WindowId,
+    };
 
     use super::FocusWindow;
 

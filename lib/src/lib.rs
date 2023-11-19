@@ -1,7 +1,8 @@
 //! > **Kitty remote command bindings for rust**
 //!
-//! This crate provides access to the Kitty terminal's remote control functionality. At the moment
-//! this is achieved ! by creating `std::process::Command` objects through a convenient API interface.
+//! This crate provides access to the Kitty terminal's remote control functionality. At the moment !
+//! this is achieved by creating `std::process::Command` objects through a convenient and type safe
+//! API interface.
 //!
 //! ## Examples:
 //!
@@ -9,7 +10,7 @@
 //! ```
 //! use std::process::Command;
 //!
-//! use kitty_remote_bindings::{Matcher, SendText, model::WindowId};
+//! use kitty_remote_bindings::{command::options::Matcher, command::SendText, model::WindowId};
 //!
 //! let mut send_text = SendText::new(r#"echo "Hello world""#.to_string())
 //!     .matcher(Matcher::Id(WindowId(2)));
@@ -21,20 +22,8 @@
 //! // cmd.status().expect("failed to execute send-text");
 //! ```
 
+pub mod command;
 pub mod model;
-mod remote_command;
-
-pub use remote_command::CommandOutput;
-
-pub use remote_command::options::Cwd;
-pub use remote_command::options::LaunchType;
-pub use remote_command::options::Matcher;
-pub use remote_command::options::ToArg;
-
-pub use remote_command::focus_window::FocusWindow;
-pub use remote_command::launch::Launch;
-pub use remote_command::ls::Ls;
-pub use remote_command::send_text::SendText;
 
 pub type Result<T> = std::result::Result<T, Error>;
 

@@ -20,4 +20,5 @@ authors = []
 
 [packages]
 kitty-remote-bindings = { path = "lib", changelog_path = "CHANGELOG.md" }
+kitty-remote-bindings-core = { path = "core" }
 kitty-remote-bindings-macros = { path = "macros" }
