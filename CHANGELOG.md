@@ -2,6 +2,12 @@
 All notable changes to this project will be documented in this file. See [conventional commits](https://www.conventionalcommits.org/) for commit guidelines.
 
 - - -
+## kitty-remote-bindings-v0.4.2 - 2023-11-19
+#### Bug Fixes
+- fix readme path - (f5c0e7f) - Gabor Pihaj
+
+- - -
+
 ## kitty-remote-bindings-v0.4.1 - 2023-11-19
 #### Bug Fixes
 - restore readme config in main lib - (c076418) - Gabor Pihaj
