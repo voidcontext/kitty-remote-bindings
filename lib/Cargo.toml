@@ -1,6 +1,6 @@
 [package]
 name = "kitty-remote-bindings"
-version = "0.4.0"
+version = "0.4.1"
 description = "Bindings for Kitty Terminal's remote commands"
 edition.workspace = true
 license.workspace = true
