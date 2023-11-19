@@ -7,6 +7,7 @@ use super::CommandOutput;
 /// Represents the "focus-window" remote command: kitty @ focus-window
 #[derive(Debug, PartialEq)]
 pub struct FocusWindow {
+    to: Option<String>,
     matcher: Option<Matcher>,
 }
 
@@ -14,7 +15,14 @@ impl FocusWindow {
     #[must_use]
     #[allow(clippy::new_without_default)]
     pub fn new() -> Self {
-        Self { matcher: None }
+        Self {
+            to: None,
+            matcher: None,
+        }
+    }
+    pub fn to(&mut self, to: String) -> &Self {
+        self.to = Some(to);
+        self
     }
 }
 
@@ -40,7 +48,13 @@ impl CommandOutput for FocusWindow {
 impl<'a> From<&'a FocusWindow> for Command {
     fn from(value: &FocusWindow) -> Self {
         let mut cmd = Command::new("kitty");
-        cmd.args(["@", "focus-window"]);
+        cmd.arg("@");
+
+        if let Some(to) = &value.to {
+            cmd.args(["--to", to.as_str()]);
+        }
+
+        cmd.arg("focus-window");
 
         if let Some(Matcher::Id(id)) = value.matcher {
             cmd.arg("--match");
@@ -74,6 +88,17 @@ mod tests {
         assert_eq!(
             cmd.get_args().collect::<Vec<_>>(),
             vec!["@", "focus-window"]
+        );
+    }
+
+    #[test]
+    fn test_focus_widow_command_to() {
+        let cmd = Command::from(FocusWindow::new().to("unix:/path/to/kitty.sock".to_string()));
+
+        assert_eq!(cmd.get_program(), "kitty");
+        assert_eq!(
+            cmd.get_args().collect::<Vec<_>>(),
+            vec!["@", "--to", "unix:/path/to/kitty.sock", "focus-window"]
         );
     }
 

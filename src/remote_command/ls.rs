@@ -7,6 +7,7 @@ use super::CommandOutput;
 /// Represents the "ls" remote command: kitty @ ls
 #[derive(Debug, PartialEq)]
 pub struct Ls {
+    to: Option<String>,
     matcher: Option<Matcher>,
 }
 
@@ -14,7 +15,14 @@ impl Ls {
     #[must_use]
     #[allow(clippy::new_without_default)]
     pub fn new() -> Self {
-        Self { matcher: None }
+        Self {
+            to: None,
+            matcher: None,
+        }
+    }
+    pub fn to(&mut self, to: String) -> &Self {
+        self.to = Some(to);
+        self
     }
 }
 
@@ -33,7 +41,10 @@ impl CommandOutput for Ls {
 
             Ok(ls_output)
         } else {
-            Err(crate::Error::ErrorExit("kitty @ ls".to_string()))
+            Err(crate::Error::ErrorExit(format!(
+                "kitty @ ls: {}",
+                String::from_utf8_lossy(&output.stderr),
+            )))
         }
     }
 }
@@ -41,7 +52,13 @@ impl CommandOutput for Ls {
 impl<'a> From<&'a Ls> for Command {
     fn from(value: &Ls) -> Self {
         let mut cmd = Command::new("kitty");
-        cmd.args(["@", "ls"]);
+        cmd.arg("@");
+
+        if let Some(to) = &value.to {
+            cmd.args(["--to", to.as_str()]);
+        }
+
+        cmd.arg("ls");
 
         if let Some(Matcher::Id(id)) = value.matcher {
             cmd.arg("--match");
@@ -80,6 +97,17 @@ mod tests {
     }
 
     #[test]
+    fn test_ls_command_to() {
+        let cmd = Command::from(Ls::new().to("unix:/path/to/kitty.sock".to_string()));
+
+        assert_eq!(cmd.get_program(), "kitty");
+        assert_eq!(
+            cmd.get_args().collect::<Vec<_>>(),
+            vec!["@", "--to", "unix:/path/to/kitty.sock", "ls"]
+        );
+    }
+
+    #[test]
     fn test_ls_command_match_id() {
         let cmd = Command::from(Ls::new().matcher(Matcher::Id(WindowId(13))));
 
@@ -114,7 +142,7 @@ mod tests {
         let result = Ls::result(&output);
 
         match result {
-            Err(crate::Error::ErrorExit(process)) => assert_eq!(process, "kitty @ ls"),
+            Err(crate::Error::ErrorExit(process)) => assert_eq!(process, "kitty @ ls: debug info"),
             r => panic!("Unexpected result: {r:?}"),
         };
     }

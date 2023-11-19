@@ -8,6 +8,7 @@ use super::CommandOutput;
 #[derive(Debug, PartialEq)]
 pub struct SendText {
     text: String, // TODO: this should be a non empty string
+    to: Option<String>,
     matcher: Option<Matcher>,
 }
 
@@ -16,8 +17,13 @@ impl SendText {
     pub fn new(text: String) -> Self {
         Self {
             text,
+            to: None,
             matcher: None,
         }
+    }
+    pub fn to(&mut self, to: String) -> &Self {
+        self.to = Some(to);
+        self
     }
 }
 
@@ -43,7 +49,13 @@ impl CommandOutput for SendText {
 impl<'a> From<&'a SendText> for Command {
     fn from(value: &SendText) -> Self {
         let mut cmd = Command::new("kitty");
-        cmd.args(["@", "send-text"]);
+        cmd.arg("@");
+
+        if let Some(to) = &value.to {
+            cmd.args(["--to", to.as_str()]);
+        }
+
+        cmd.arg("send-text");
 
         if let Some(Matcher::Id(id)) = value.matcher {
             cmd.arg("--match");
@@ -79,6 +91,25 @@ mod tests {
         assert_eq!(
             cmd.get_args().collect::<Vec<_>>(),
             vec!["@", "send-text", "some text"]
+        );
+    }
+
+    #[test]
+    fn test_focus_widow_command_to() {
+        let cmd = Command::from(
+            SendText::new("some-text".to_string()).to("unix:/path/to/kitty.sock".to_string()),
+        );
+
+        assert_eq!(cmd.get_program(), "kitty");
+        assert_eq!(
+            cmd.get_args().collect::<Vec<_>>(),
+            vec![
+                "@",
+                "--to",
+                "unix:/path/to/kitty.sock",
+                "send-text",
+                "some-text"
+            ]
         );
     }
 
