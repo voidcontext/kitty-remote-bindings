@@ -2,6 +2,15 @@
 All notable changes to this project will be documented in this file. See [conventional commits](https://www.conventionalcommits.org/) for commit guidelines.
 
 - - -
+## kitty-remote-bindings-v0.4.0 - 2023-11-19
+#### Features
+- implement launch command (#8) - (f7bbccc) - Gabor Pihaj
+#### Refactoring
+- re-organise exposed module strcture and improve docs (#9) - (95534b1) - Gabor Pihaj
+- remove boilerplate when defining commands using macros (#7) - (05a3bb5) - Gabor Pihaj
+
+- - -
+
 ## kitty-remote-bindings-v0.3.0 - 2023-11-15
 #### Features
 - implement focus-window command and change cwd to PathBuf (#5) - (4710a25) - Gabor Pihaj
