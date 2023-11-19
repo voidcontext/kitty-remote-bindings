@@ -13,7 +13,7 @@ tag_prefix = "v"
 [commit_types]
 
 [changelog]
-path = "CHANGELOG.md"
+path = "aggregated_changelog.md"
 authors = []
 
 [bump_profiles]
