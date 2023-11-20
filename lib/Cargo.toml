@@ -16,7 +16,7 @@ serde = {version = "1.0.190", features = ["serde_derive"]}
 serde_json = "1.0.108"
 thiserror = "1.0.50"
 kitty-remote-bindings-core = {path = "../core", version = "0.1.0" }
-kitty-remote-bindings-macros = {path = "../macros", version = "0.1.0" }
+kitty-remote-bindings-macros = {path = "../macros", version = "0.1.1" }
 
 [dev-dependencies]
 lazy_static = "1.4.0"
