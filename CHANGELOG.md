@@ -2,6 +2,14 @@
 All notable changes to this project will be documented in this file. See [conventional commits](https://www.conventionalcommits.org/) for commit guidelines.
 
 - - -
+## kitty-remote-bindings-v0.4.3 - 2023-11-20
+#### Bug Fixes
+- use kitten for running remote commands instead of kitty (#10) - (44a7c7a) - Gabor Pihaj
+#### Miscellaneous Chores
+- bump macros version ahead of the release - (7c8bf57) - Gabor Pihaj
+
+- - -
+
 ## kitty-remote-bindings-v0.4.2 - 2023-11-19
 #### Bug Fixes
 - fix readme path - (f5c0e7f) - Gabor Pihaj

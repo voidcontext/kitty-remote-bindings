@@ -2,6 +2,14 @@
 All notable changes to this project will be documented in this file. See [conventional commits](https://www.conventionalcommits.org/) for commit guidelines.
 
 - - -
+## v0.1.3 - 2023-11-20
+### Package updates
+- kitty-remote-bindings-macros bumped to kitty-remote-bindings-macros-v0.1.1
+- kitty-remote-bindings bumped to kitty-remote-bindings-v0.4.3
+### Global changes
+
+- - -
+
 ## v0.1.2 - 2023-11-19
 ### Package updates
 - kitty-remote-bindings bumped to kitty-remote-bindings-v0.4.2

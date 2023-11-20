@@ -1,6 +1,6 @@
 [package]
 name = "kitty-remote-bindings-macros"
-version = "0.1.0"
+version = "0.1.1"
 description = "Internal macros of the kitty-remote-bindings crate"
 edition.workspace = true
 license.workspace = true

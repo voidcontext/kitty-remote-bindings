@@ -2,6 +2,12 @@
 All notable changes to this project will be documented in this file. See [conventional commits](https://www.conventionalcommits.org/) for commit guidelines.
 
 - - -
+## kitty-remote-bindings-macros-v0.1.1 - 2023-11-20
+#### Bug Fixes
+- use kitten for running remote commands instead of kitty (#10) - (44a7c7a) - Gabor Pihaj
+
+- - -
+
 ## kitty-remote-bindings-macros-v0.1.0 - 2023-11-19
 #### Features
 - implement launch command (#8) - (f7bbccc) - Gabor Pihaj
