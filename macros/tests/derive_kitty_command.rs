@@ -86,7 +86,7 @@ fn test_derive_kitty_command_implements_from_kitty_command_for_std_command() {
     let cmd = TestCommand::new();
     let std_cmd = std::process::Command::from(&cmd);
 
-    assert_eq!(std_cmd.get_program(), "kitty");
+    assert_eq!(std_cmd.get_program(), "kitten");
     assert_eq!(
         std_cmd.get_args().collect::<Vec<_>>(),
         vec!["@", "test-command"]
@@ -99,7 +99,7 @@ fn test_derive_kitty_command_from_kitty_command_for_std_command_positional_args(
 
     let std_cmd = std::process::Command::from(&cmd);
 
-    assert_eq!(std_cmd.get_program(), "kitty");
+    assert_eq!(std_cmd.get_program(), "kitten");
     assert_eq!(
         std_cmd.get_args().collect::<Vec<_>>(),
         vec!["@", "test-command", "some text"]
@@ -113,7 +113,7 @@ fn test_derive_kitty_command_from_kitty_command_for_std_command_options() {
 
     let std_cmd = std::process::Command::from(&cmd);
 
-    assert_eq!(std_cmd.get_program(), "kitty");
+    assert_eq!(std_cmd.get_program(), "kitten");
     assert_eq!(
         std_cmd.get_args().collect::<Vec<_>>(),
         vec!["@", "test-command", "--option-str", "value1", "some text"]
@@ -134,7 +134,7 @@ fn test_derive_kitty_command_from_kitty_command_for_std_command_option_can_be_re
 
     let std_cmd = std::process::Command::from(&cmd);
 
-    assert_eq!(std_cmd.get_program(), "kitty");
+    assert_eq!(std_cmd.get_program(), "kitten");
     assert_eq!(
         std_cmd.get_args().collect::<Vec<_>>(),
         vec!["@", "test-command", "--foobar", "value1", "some text"]
@@ -152,7 +152,7 @@ fn test_derive_kitty_command_from_kitty_command_for_std_command_option_underscor
 
     let std_cmd = std::process::Command::from(&cmd);
 
-    assert_eq!(std_cmd.get_program(), "kitty");
+    assert_eq!(std_cmd.get_program(), "kitten");
     assert_eq!(
         std_cmd.get_args().collect::<Vec<_>>(),
         vec!["@", "test-command", "--option-str", "value1"]
@@ -178,7 +178,7 @@ fn test_derive_kitty_command_from_kitty_command_for_std_argument_order_correct()
 
     let std_cmd = std::process::Command::from(&cmd);
 
-    assert_eq!(std_cmd.get_program(), "kitty");
+    assert_eq!(std_cmd.get_program(), "kitten");
     assert_eq!(
         std_cmd.get_args().collect::<Vec<_>>(),
         vec![

@@ -52,7 +52,7 @@ mod tests {
     fn test_focus_window_command_default() {
         let cmd = Command::from(&FocusWindow::new());
 
-        assert_eq!(cmd.get_program(), "kitty");
+        assert_eq!(cmd.get_program(), "kitten");
         assert_eq!(
             cmd.get_args().collect::<Vec<_>>(),
             vec!["@", "focus-window"]
@@ -63,7 +63,7 @@ mod tests {
     fn test_focus_widow_command_to() {
         let cmd = Command::from(&FocusWindow::new().to("unix:/path/to/kitty.sock".to_string()));
 
-        assert_eq!(cmd.get_program(), "kitty");
+        assert_eq!(cmd.get_program(), "kitten");
         assert_eq!(
             cmd.get_args().collect::<Vec<_>>(),
             vec!["@", "--to", "unix:/path/to/kitty.sock", "focus-window"]
@@ -74,7 +74,7 @@ mod tests {
     fn test_focus_window_command_match_id() {
         let cmd = Command::from(&FocusWindow::new().matcher(Matcher::Id(WindowId(13))));
 
-        assert_eq!(cmd.get_program(), "kitty");
+        assert_eq!(cmd.get_program(), "kitten");
         assert_eq!(
             cmd.get_args().collect::<Vec<_>>(),
             vec!["@", "focus-window", "--match", "id:13"]

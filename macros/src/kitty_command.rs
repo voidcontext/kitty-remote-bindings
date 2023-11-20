@@ -114,7 +114,7 @@ fn drive_from_kitty_command_for_command(st: &ItemStruct) -> proc_macro2::TokenSt
     quote! {
         impl<'a> From<&'a #name> for std::process::Command {
             fn from(value: &#name) -> Self {
-                let mut cmd = std::process::Command::new("kitty");
+                let mut cmd = std::process::Command::new("kitten");
                 cmd.arg("@");
 
                 #top_level_options

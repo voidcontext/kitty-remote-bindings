@@ -56,7 +56,7 @@ mod tests {
     fn test_ls_command_default() {
         let cmd = Command::from(&Ls::new());
 
-        assert_eq!(cmd.get_program(), "kitty");
+        assert_eq!(cmd.get_program(), "kitten");
         assert_eq!(cmd.get_args().collect::<Vec<_>>(), vec!["@", "ls"]);
     }
 
@@ -64,7 +64,7 @@ mod tests {
     fn test_ls_command_to() {
         let cmd = Command::from(&Ls::new().to("unix:/path/to/kitty.sock".to_string()));
 
-        assert_eq!(cmd.get_program(), "kitty");
+        assert_eq!(cmd.get_program(), "kitten");
         assert_eq!(
             cmd.get_args().collect::<Vec<_>>(),
             vec!["@", "--to", "unix:/path/to/kitty.sock", "ls"]
@@ -75,7 +75,7 @@ mod tests {
     fn test_ls_command_match_id() {
         let cmd = Command::from(&Ls::new().matcher(Matcher::Id(WindowId(13))));
 
-        assert_eq!(cmd.get_program(), "kitty");
+        assert_eq!(cmd.get_program(), "kitten");
         assert_eq!(
             cmd.get_args().collect::<Vec<_>>(),
             vec!["@", "ls", "--match", "id:13"]

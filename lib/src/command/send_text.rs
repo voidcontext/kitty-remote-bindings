@@ -53,7 +53,7 @@ mod tests {
     fn test_send_text_command_default() {
         let cmd = Command::from(&SendText::new("some text".to_string()));
 
-        assert_eq!(cmd.get_program(), "kitty");
+        assert_eq!(cmd.get_program(), "kitten");
         assert_eq!(
             cmd.get_args().collect::<Vec<_>>(),
             vec!["@", "send-text", "some text"]
@@ -66,7 +66,7 @@ mod tests {
             &SendText::new("some-text".to_string()).to("unix:/path/to/kitty.sock".to_string()),
         );
 
-        assert_eq!(cmd.get_program(), "kitty");
+        assert_eq!(cmd.get_program(), "kitten");
         assert_eq!(
             cmd.get_args().collect::<Vec<_>>(),
             vec![
@@ -85,7 +85,7 @@ mod tests {
             &SendText::new("some text".to_string()).matcher(Matcher::Id(WindowId(13))),
         );
 
-        assert_eq!(cmd.get_program(), "kitty");
+        assert_eq!(cmd.get_program(), "kitten");
         assert_eq!(
             cmd.get_args().collect::<Vec<_>>(),
             vec!["@", "send-text", "--match", "id:13", "some text"]
