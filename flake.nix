@@ -10,7 +10,6 @@
   inputs.nix-rust-utils.inputs.nixpkgs.follows = "nixpkgs";
   inputs.nix-rust-utils.inputs.crane.follows = "crane";
 
-
   inputs.rust-overlay.url = "github:oxalica/rust-overlay";
 
   outputs = {
@@ -23,7 +22,9 @@
     mkNru = pkgs:
       nix-rust-utils.mkLib {
         inherit pkgs;
-        toolchain = pkgs.rust-bin.stable.latest.default;
+        toolchain = pkgs.rust-bin.stable.latest.default.override {
+          extensions = ["llvm-tools-preview"];
+        };
       };
     mkFelis = pkgs: let
       nru = mkNru pkgs;
@@ -75,6 +76,7 @@
         inherit (felis) checks;
         packages = [
           pkgs.gnused
+          pkgs.cargo-llvm-cov
         ];
       };
       devShells.nightly = pkgs.mkShell {
